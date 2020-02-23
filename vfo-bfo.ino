@@ -1,7 +1,7 @@
 
 /*
  VFO/BFO modified for a different display and modified for a different uC.
- Ricardo Lima Caratti (PU2CLR) -   April, 2019
+ forked from Ricardo Lima Caratti (PU2CLR) https://github.com/pu2clr/VFO_BFO_OLED_ARDUINO/blob/master/source/si5351_vfobfo.ino
 */
 
 #include <si5351.h>
