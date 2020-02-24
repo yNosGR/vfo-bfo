@@ -349,7 +349,7 @@ void loop()
     }
     else
     {
-      si5351.set_freq(bfoFreq, SI5351_CLK1);
+      si5351.set_freq(bfoFreq, SI5351_CLK2);
     }
     isFreqChanged = false;
     displayDial();
