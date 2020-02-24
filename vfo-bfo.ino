@@ -143,12 +143,6 @@ void setup()
   // Initiating the OLED Display
   display.begin(&Adafruit128x64, I2C_ADDRESS);
 //  display.setFont(Adafruit5x7);
-//  display.set2X();
-  display.set400kHz();
-  display.clear();
-  display.print("\n KC8IJQ");
-  delay(3000);
-  display.clear();
   displayDial();
   // Initiating the Signal Generator (si5351)
   si5351.init(SI5351_CRYSTAL_LOAD_8PF, 0, 0);
@@ -158,8 +152,6 @@ void setup()
   si5351.set_freq(vfoFreq, SI5351_CLK0); // Start CLK0 (VFO)
   si5351.set_freq(bfoFreq, SI5351_CLK2); // Start CLK2 (BFO)
   si5351.update_status();
-  // Show the initial system information
-  delay(500);
 
   // Will stop what Arduino is doing and call changeStep(), changeBand() or switchVFOBFO
   attachInterrupt(digitalPinToInterrupt(BUTTON_STEP), changeStep, RISING);      // whenever the BUTTON_STEP goes from LOW to HIGH
@@ -176,6 +168,7 @@ void displayDial()
 {
   double vfo = vfoFreq / 100000000.0;
   double bfo = bfoFreq / 100000000.0;
+  double vfohz = vfoFreq - vfo;
   String mainFreq;
   String secoundFreq;
   String staticFreq;
@@ -184,15 +177,15 @@ void displayDial()
   // Change the display behaviour depending on who is controlled, BFO or BFO.
   if (currentClock == 0)
   { // If the encoder is controlling the VFO
-    mainFreq = String(vfo,3);
-    secoundFreq = String(bfo,3);
+    mainFreq = String(vfo,5);
+    secoundFreq = String(bfo,7);
     staticFreq = "BFO";
     dinamicFreq = "VFO";
   }
   else // encoder is controlling the VFO
   {
-    mainFreq = String(bfo,3);
-    secoundFreq = String(vfo,3);
+    mainFreq = String(bfo,5);
+    secoundFreq = String(vfo,5);
     staticFreq = "VFO";
     dinamicFreq = "BFO";
   }
@@ -226,6 +219,8 @@ void displayDial()
   display.set2X();
   display.println("MiniVFO");
   display.println(mainFreq);
+  //display.print(".");
+  //display.println(vfohz);
   display.set1X();
   //display.println("");
   display.print("band:");
